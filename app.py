@@ -63,8 +63,11 @@ def signup():
     email=request.form["email"]
     password=request.form["password"]
     mycursor=mydb.cursor()
-    sql="SELECT * FROM MEMBER WHERE EMAIL='" + email + "'"
-    mycursor.execute(sql)
+    sql="SELECT * FROM MEMBER WHERE EMAIL = %s"
+    mycursor.execute(sql,email)
+
+
+
     nicknameResult=mycursor.fetchall()
     if(len(nicknameResult) != 0):
         return redirect("/error?msg=信箱已經被註冊")
@@ -83,8 +86,8 @@ def signin():
     email=request.form["email"]
     password=request.form["password"]
     mycursor=mydb.cursor()
-    sql="SELECT * FROM MEMBER WHERE EMAIL='" + email + "'"
-    mycursor.execute(sql)
+    sql="SELECT * FROM MEMBER WHERE EMAIL = %s"
+    mycursor.execute(sql,email)
     clientGet=mycursor.fetchall()
     print(clientGet)
     if(len(clientGet)==0):
